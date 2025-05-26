@@ -1,0 +1,102 @@
+<!-- templates/query.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户查询 - 客户管理系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            min-height: 100vh;
+        }
+        .query-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .result-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .result-table th {
+            background: #f8f9fa!important;
+        }
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body class="gradient-bg">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card query-card">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="mb-0">客户信息查询</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div class="mb-4">
+                                <label class="form-label">请输入手机号码（每行一个，最多50个）</label>
+                                <textarea
+                                    class="form-control"
+                                    name="phones"
+                                    placeholder="例如：
+13800138000
+13912345678
+..."></textarea>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-search me-2"></i>开始查询
+                                </button>
+                                {#<a href="{{ url_for('upload_file') }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left-circle me-2"></i>返回上传页面
+                                </a>#}
+                            </div>
+                        </form>
+
+                        {% if results %}
+                        <div class="mt-5">
+                            <h4 class="mb-3">查询结果（共 {{ results|length }} 条）</h4>
+                            <div class="result-table">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">手机号码</th>
+                                            <th scope="col">过期时间</th>
+                                            <th scope="col">剩余天数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in results %}
+                                        <tr>
+                                            <td class="fw-bold">{{ item.phone }}</td>
+                                            <td>{{ item.expire_date }}</td>
+                                            <td>
+                                                <span class="badge bg-{{ 'success' if item.remaining_days > 7 else 'warning' }}">
+                                                    {{ item.remaining_days }} 天
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.css">
+</body>
+</html>

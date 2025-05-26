@@ -1,0 +1,77 @@
+<!-- templates/upload.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据上传 - 客户管理系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            min-height: 100vh;
+        }
+        .upload-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .upload-card:hover {
+            transform: translateY(-5px);
+        }
+        .custom-file-upload {
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .custom-file-upload:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+    </style>
+</head>
+<body class="gradient-bg">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card upload-card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">上传客户数据文件</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="mb-4">
+                                <label class="d-block custom-file-upload">
+                                    <input type="file" name="file" class="d-none" accept=".xlsx,.xls" required>
+                                    <i class="bi bi-file-earmark-excel fs-1 text-primary"></i>
+                                    <h5 class="mt-3">点击选择Excel文件</h5>
+                                    <p class="text-muted mb-0">支持.xlsx和.xls格式</p>
+                                </label>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-upload me-2"></i>上传文件
+                                </button>
+                                <a href="{{ url_for('query') }}" class="btn btn-outline-primary">
+                                    <i class="bi bi-search me-2"></i>前往查询页面
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <small class="text-muted">文件要求：第一列 - 手机号码，第二列 - 过期时间，第三列 - 剩余天数</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.css">
+</body>
+</html>

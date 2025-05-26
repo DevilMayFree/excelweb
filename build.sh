@@ -1,0 +1,1 @@
+docker build -t excelweb:1.0.0 .

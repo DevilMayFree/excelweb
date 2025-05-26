@@ -1,0 +1,9 @@
+/.idea
+.DS_Store
+/.git
+__pycache__
+app.log
+/downloads
+/uploads
+/unzip
+/txt

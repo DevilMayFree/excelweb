@@ -1,0 +1,11 @@
+.idea
+venv
+__pycache__
+*.log
+conversationbot
+.DS_Store
+/downloads
+/test
+/uploads
+/unzip
+/txt

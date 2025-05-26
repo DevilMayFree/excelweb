@@ -1,0 +1,17 @@
+#version: '3.9'
+services:
+  excelweb:
+    container_name: excelweb-server
+    image: excelweb:1.0.0
+    restart: always
+    privileged: true
+    ports:
+      - 8080:8080
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    networks:
+      custom_network:
+        ipv4_address: 172.18.1.136
+networks:
+  custom_network:
+    external: true
