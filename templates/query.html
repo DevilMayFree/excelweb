@@ -108,22 +108,58 @@
 
     <script>
     function copyPhoneNumbers() {
-        try {
-            const phones = Array.from(document.querySelectorAll('.phone-number'))
-                              .map(td => td.textContent.trim())
-                              .join('\n');
+    try {
+        const phones = Array.from(document.querySelectorAll('.phone-number'))
+                          .map(td => td.textContent.trim())
+                          .join('\n');
 
+        // 兼容性处理方案
+        if (navigator.clipboard) {
+            // 现代浏览器方案
             navigator.clipboard.writeText(phones).then(() => {
                 showToast('成功复制 ' + phones.split('\n').length + ' 个号码');
             }).catch(err => {
                 console.error('复制失败:', err);
-                showToast('复制失败，请手动选择号码', 'danger');
+                fallbackCopy(phones);
             });
-        } catch (error) {
-            console.error('复制错误:', error);
-            showToast('浏览器不支持自动复制，请手动选择号码', 'danger');
+        } else {
+            // 旧浏览器兼容方案
+            fallbackCopy(phones);
         }
+    } catch (error) {
+        console.error('复制错误:', error);
+        showToast('复制失败，请手动选择号码', 'danger');
     }
+}
+
+// 兼容旧浏览器的复制方法
+function fallbackCopy(text) {
+    try {
+        // 创建临时textarea
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+
+        // 选择文本
+        textarea.select();
+        const successful = document.execCommand('copy');
+
+        // 清理DOM
+        document.body.removeChild(textarea);
+
+        if(successful) {
+            showToast('成功复制 ' + text.split('\n').length + ' 个号码');
+        } else {
+            throw new Error('复制命令不被支持');
+        }
+    } catch (err) {
+        console.error('旧版复制失败:', err);
+        showToast('自动复制失败，请手动选择号码', 'danger');
+    }
+}
+
 
     function showToast(message, type = 'success') {
         const toast = document.createElement('div');
